@@ -1,6 +1,6 @@
 from django.shortcuts import render 
 from .models import Flight
-from django.http import Http404
+from django.http import HttpResponseNotFound
 
 # Create your views here.
 def index(request):
@@ -12,12 +12,14 @@ def flight(request, flight_id):
 
     try:
         flight = Flight.objects.get(pk=flight_id)
+        print(flight)
 
-    except flight_id.DoesNotExist:
-        raise Http404('<h1>Page not found</h1>')
-    
+    except Flight.DoesNotExist:
+        return HttpResponseNotFound("<h1 style='text-align:center; margin-top:300px'>404 - This flight does not exist!</h1>")
+
     return render(request, "flights/flight.html", {
         "flight": flight,
         # "passengers" is that related name i described in Models
         "passengers":flight.passengers.all()
     })
+
