@@ -1,6 +1,7 @@
 from django.shortcuts import render 
-from .models import Flight
-from django.http import HttpResponseNotFound
+from .models import Flight, Passenger
+from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -12,7 +13,6 @@ def flight(request, flight_id):
 
     try:
         flight = Flight.objects.get(pk=flight_id)
-        print(flight)
 
     except Flight.DoesNotExist:
         return HttpResponseNotFound("<h1 style='text-align:center; margin-top:300px'>404 - This flight does not exist!</h1>")
@@ -20,6 +20,15 @@ def flight(request, flight_id):
     return render(request, "flights/flight.html", {
         "flight": flight,
         # "passengers" is that related name i described in Models
-        "passengers":flight.passengers.all()
+        "passengers": flight.passengers.all(),
+        # Exclude all passengers whose this flight is already in flights of theirs
+        "non_passengers": Passenger.objects.exclude(flights=flight).all()
     })
+
+def book(request, flight_id):
+    if request.method == "POST":
+        flight = Flight.objects.get(pk=flight_id)
+        passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
+        passenger.flights.add(flight)
+        return HttpResponseRedirect(reverse("flights:flight", args=(flight.id,)))
 
