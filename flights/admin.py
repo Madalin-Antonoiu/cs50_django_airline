@@ -8,7 +8,7 @@ class AirportAdmin(admin.ModelAdmin):
     list_display = ["id", "code", "city"]
 
 class PassengerAdmin(admin.ModelAdmin):
-    list_display = ["id", "first", "last"]
+    filter_horizontal = ("flights",)
 
 # Register your models here.
 admin.site.register(Airport, AirportAdmin)
