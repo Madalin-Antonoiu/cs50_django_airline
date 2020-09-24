@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render 
 from .models import Flight
+from django.http import Http404
 
 # Create your views here.
 def index(request):
@@ -8,7 +9,13 @@ def index(request):
     })
 
 def flight(request, flight_id):
-    flight = Flight.objects.get(pk=flight_id)
+
+    try:
+        flight = Flight.objects.get(pk=flight_id)
+
+    except flight_id.DoesNotExist:
+        raise Http404('<h1>Page not found</h1>')
+    
     return render(request, "flights/flight.html", {
         "flight": flight,
         # "passengers" is that related name i described in Models
