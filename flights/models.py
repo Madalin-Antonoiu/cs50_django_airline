@@ -17,4 +17,4 @@ class Flight(models.Model):
 
     # This is to return formated string when querying db
     def __str__(self):
-        return f"{self.id}: {self.origin} to {self.destination}, duration {self.duration}min"
+        return f"{self.origin} to {self.destination}, duration {self.duration}min"

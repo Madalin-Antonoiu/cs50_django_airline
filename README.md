@@ -56,3 +56,23 @@ class Flight(models.Model):
     # To delete
     >>> f.delete()
 ```
+
+FULL DOCUMENTATION: https://cs50.harvard.edu/web/2020/notes/4/
+
+Annoying pylint-django errors?   
+
+`
+pip install pylint-django   
+
+
+Press ctr+sft+P to open the the Command Palette. Now in command palette type Preferences: Configure Language Specific Settings. Now select Python. Add a coma and paste this:
+```py
+"python.linting.pylintArgs": [
+        "--load-plugins=pylint_django",
+        "--errors-only"
+    ]
+```
+
+
+Hope this will help!
+`

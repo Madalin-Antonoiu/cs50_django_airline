@@ -3,5 +3,5 @@ from . import views
 
 app_name = "flights"
 urlpatterns = [
-# Models.py first
+    path("", views.index, name="index")
 ]
